@@ -1,0 +1,135 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/inter";
+@import "@fontsource/space-mono/400.css";
+@import "@fontsource/space-mono/700.css";
+
+@theme {
+    --animate-flash-done: flash-done 2.4s ease-out;
+    --animate-flash-failed: flash-failed 2.4s ease-out;
+    @keyframes flash-done {
+        0%, 25% { background-color: color-mix(in oklab, #1975e5 14%, white); }
+        100% { background-color: var(--card); }
+    }
+    @keyframes flash-failed {
+        0%, 25% { background-color: color-mix(in oklab, #b3261e 14%, white); }
+        100% { background-color: var(--card); }
+    }
+}
+
+@theme inline {
+    --font-heading: 'Geist Variable', 'Helvetica Neue', Arial, sans-serif;
+    --font-sans: 'Inter Variable', 'Helvetica Neue', Arial, sans-serif;
+    --color-brand: var(--brand);
+    --color-ink: var(--ink);
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-success: var(--success);
+    --color-warning: var(--warning);
+    --font-mono: 'Space Mono', ui-monospace, Menlo, monospace;
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+    --background: #f6f7f8;
+    --foreground: #012d34;
+    --ink: #01222b;
+    --brand: #1975e5;
+    --card: #ffffff;
+    --card-foreground: #012d34;
+    --popover: #ffffff;
+    --popover-foreground: #012d34;
+    --primary: #01222b;
+    --primary-foreground: #f6f7f8;
+    --secondary: #eef0f3;
+    --secondary-foreground: #012d34;
+    --muted: #eef0f3;
+    --muted-foreground: #5f7378;
+    --accent: #eef0f3;
+    --accent-foreground: #012d34;
+    --destructive: #b3261e;
+    --success: #1f7a4d;
+    --warning: #b26b00;
+    --border: #e1e5e9;
+    --input: #d6dce1;
+    --ring: #1975e5;
+    --radius: 0.5rem;
+}
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+  body::before {
+    /* faint grain, as on arca.inc */
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+  }
+  html {
+    @apply font-sans;
+    scrollbar-gutter: stable;
+    }
+}
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}

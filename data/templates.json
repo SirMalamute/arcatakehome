@@ -1,0 +1,37 @@
+[
+  {
+    "id": "cmc",
+    "name": "CMC excipient review",
+    "description": "For each CMC section: excipient grade, justification, guidance cited, and conflicts with the current spec.",
+    "columns": [
+      {"key": "excipient_grade", "label": "Excipient grade(s)", "question": "Which excipient grades are specified? List each as 'excipient: grade'.", "type": "list"},
+      {"key": "justification", "label": "Justification", "question": "What justification is given for the choice of excipient grade(s)?", "type": "text"},
+      {"key": "guidance_cited", "label": "Guidance cited", "question": "Which regulatory guidances, guidelines or pharmacopoeial chapters are cited?", "type": "list"},
+      {"key": "contradicts_spec", "label": "Contradicts current spec?", "question": "Does this section indicate that an excipient grade differs from, or has replaced, the current specification?", "type": "boolean"}
+    ]
+  },
+  {
+    "id": "ha_letters",
+    "name": "Health authority commitments",
+    "description": "For each HA letter: commitments made, due date, whether met, and owner.",
+    "columns": [
+      {"key": "commitments", "label": "Commitments", "question": "What commitments did the company (sponsor/applicant/MAH) make? List each separately.", "type": "list"},
+      {"key": "due_date", "label": "Due date", "question": "What is the due date of the commitment(s)? If several, give the earliest.", "type": "date"},
+      {"key": "met", "label": "Met?", "question": "Does this letter state whether the commitment has been fulfilled?", "type": "enum", "options": ["met", "not_met", "partially_met", "not_stated"]},
+      {"key": "owner", "label": "Owner", "question": "Who is named as responsible for the commitment (name and role)?", "type": "text"}
+    ]
+  },
+  {
+    "id": "stability",
+    "name": "Stability protocol review",
+    "description": "The same 6 questions of each stability protocol.",
+    "columns": [
+      {"key": "storage_condition", "label": "Storage conditions", "question": "What storage conditions are tested (long-term, intermediate, accelerated, in-use)?", "type": "list"},
+      {"key": "timepoints", "label": "Timepoints", "question": "What are the long-term timepoints?", "type": "text"},
+      {"key": "acceptance_criteria", "label": "Acceptance criteria", "question": "What are the acceptance criteria? List each as 'test: criterion'.", "type": "list"},
+      {"key": "deviations", "label": "Deviations", "question": "What does the protocol say about deviations or storage excursions?", "type": "text"},
+      {"key": "bracketing", "label": "Bracketing justification", "question": "Is bracketing or matrixing used, and what is the justification?", "type": "text"},
+      {"key": "post_approval", "label": "Post-approval commitment", "question": "What post-approval stability commitment is stated?", "type": "text"}
+    ]
+  }
+]
