@@ -27,6 +27,23 @@ The current design (one call per document, DBOS queues on Postgres, IDs-only wor
 - **Partition `review_items`** by hash of `review_id`. Store answers in their own table or as compressed JSONB.
 - **Read replicas** for the grid, search and exports. Writes stay on the primary.
 - **Search beyond ~10M documents.** Move full text and facets to OpenSearch or Elasticsearch, fed by change data capture. Keep the same filter whitelist so the LLM-generated filters still compile safely.
+- **Shard by tenant once one primary can't absorb the writes.**
+  - Use Citus, or route to separate Postgres clusters at the application level.
+  - Make `tenant_id` the distribution key on `documents`, `reviews` and `review_items`, so a review and its items always live on the same shard and every query stays on one shard.
+  - Only admin and analytics views need to read across shards, and those go to a warehouse rather than the live databases.
+  - A very large tenant gets its own dedicated shard.
+- **Avoid hot rows.** A single counter row per review, updated by every worker, becomes a lock bottleneck. Split it into N slot rows, have each worker update a random slot, and sum the slots when reading.
+- **Sizing and upkeep.**
+  - Tune autovacuum aggressively on `review_items`, since it is updated constantly.
+  - Archive finished reviews to cold storage, for example Parquet files in S3.
+  - Run point-in-time recovery with a hot standby for failover.
+
+### The DBOS system database
+- **It is the queue, and it is write-heavy.** Each document records the workflow, ~5 step checkpoints and the queue state, so a 500k-document review writes several million rows. Keep step outputs to IDs and small values only, as now.
+- **Dequeue contention.** Workers claim work by polling the workflow table with `FOR UPDATE SKIP LOCKED`. With thousands of workers, raise the polling interval, give each tenant its own queue, and watch lock waits.
+- **Shard it along with the app.** Run one DBOS system database per app shard, with the workers for that shard pointed at it. That keeps queue load bounded, and a failing shard can't stall the others. The global rate limit then has to be divided across shards, or enforced by a shared token bucket such as one in Redis.
+- **Retention.** Garbage-collect completed workflows after N days, using DBOS's workflow retention settings or a scheduled cleanup, so the tables and their indexes stay small.
+- **Recovery.** Each worker needs a stable executor ID, and in-flight workflows must be handed to a live executor when a worker dies, either through DBOS Conductor or an equivalent.
 
 ## 4. Documents and ingestion
 - **Store originals in S3**, keyed by content hash (which also deduplicates). Parsed pages also go in S3 or a `document_pages` table, not one JSONB blob per document.
