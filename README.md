@@ -1,6 +1,6 @@
 # Arca Reviewer
 
-Bulk review for regulatory documents. You pick a set of documents, ask questions as columns, and an LLM answers every question for every document. Each answer comes with verbatim quotes and page numbers, and every quote is checked against the source. The design and its tradeoffs are covered in [SUMMARY.md](SUMMARY.md).
+Bulk review for regulatory documents. You pick a set of documents, ask questions as columns, and an LLM answers every question for every document. Each answer comes with verbatim quotes and page numbers, and every quote is checked against the source. The design and its tradeoffs are covered in [SUMMARY.md](SUMMARY.md), and the path to large scale in [SCALING.md](SCALING.md).
 
 ## Run
 
