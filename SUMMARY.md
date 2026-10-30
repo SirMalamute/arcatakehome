@@ -31,7 +31,7 @@
 
 | Option | Why not |
 |---|---|
-| Temporal | It is an extra cluster to run, and fanning one workflow out to 500k activities hits history limits, which forces child workflows or continue-as-new. DBOS gives the same durability plus queue rate limiting on the Postgres we already have. I'd revisit at ~10M workflows/day or multi-region. |
+| Temporal | It is an extra cluster to run, and fanning one workflow out to 500k activities hits history limits, which forces child workflows or continue-as-new. DBOS gives the same durability plus queue rate limiting on the Postgres we already have. DBOS is also built on Postgres, which makes sense to natively integrate into our code|
 | Celery / SQS + workers | Durability, idempotency and resume-after-crash would all be hand-rolled. |
 | One call per cell | It re-sends the document for every question, so cost scales with the number of columns. |
 | RAG / chunking | Every seed document fits in context, and reading the whole document correctly answers "is X absent?", which retrieval can't. |
